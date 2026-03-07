@@ -16,6 +16,8 @@ spec:
         tag: "latest"
       mariadb:
         enabled: true
+        image:
+          tag: "latest"
       wordpressUsername: admin
       wordpressPassword: adminpassword
       service:

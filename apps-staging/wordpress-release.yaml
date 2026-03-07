@@ -9,13 +9,15 @@ spec:
     chart:
       name: wordpress
       repository: https://charts.bitnami.com/bitnami
-      version: "23.1.19"
+      version: "24.1.7"
     namespace: wordpress-staging
     values:
       image:
-        tag: "6.7.2-debian-12-r0"
+        tag: "latest"
       mariadb:
         enabled: true
+        image:
+          tag: "latest"
       wordpressUsername: admin
       wordpressPassword: stagingpassword
       service:
