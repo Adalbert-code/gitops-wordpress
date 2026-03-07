@@ -7,10 +7,10 @@ spec:
     name: default
   forProvider:
     chart:
-      name: mariadb-dev
+      name: mariadb
       repository: https://charts.bitnami.com/bitnami
       version: "20.2.1"
-    namespace: wordpress
+    namespace: wordpress-dev
     values:
       image:
         tag: "latest"

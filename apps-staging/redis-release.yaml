@@ -7,10 +7,10 @@ spec:
     name: default
   forProvider:
     chart:
-      name: redis-staging
+      name: redis
       repository: https://charts.bitnami.com/bitnami
       version: "20.6.3"
-    namespace: wordpress
+    namespace: wordpress-staging
     values:
       image:
         tag: "latest"
