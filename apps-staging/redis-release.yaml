@@ -1,13 +1,13 @@
 apiVersion: helm.crossplane.io/v1beta1
 kind: Release
 metadata:
-  name: redis
+  name: redis-staging
 spec:
   providerConfigRef:
     name: default
   forProvider:
     chart:
-      name: redis
+      name: redis-staging
       repository: https://charts.bitnami.com/bitnami
       version: "20.6.3"
     namespace: wordpress

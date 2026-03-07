@@ -1,13 +1,13 @@
 apiVersion: helm.crossplane.io/v1beta1
 kind: Release
 metadata:
-  name: mariadb
+  name: mariadb-staging
 spec:
   providerConfigRef:
     name: default
   forProvider:
     chart:
-      name: mariadb
+      name: mariadb-staging
       repository: https://charts.bitnami.com/bitnami
       version: "20.2.1"
     namespace: wordpress
