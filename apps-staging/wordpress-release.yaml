@@ -1,0 +1,22 @@
+apiVersion: helm.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: wordpress-staging
+spec:
+  providerConfigRef:
+    name: default
+  forProvider:
+    chart:
+      name: wordpress
+      repository: https://charts.bitnami.com/bitnami
+      version: "23.1.19"
+    namespace: wordpress-staging
+    values:
+      image:
+        tag: "6.7.2-debian-12-r0"
+      mariadb:
+        enabled: true
+      wordpressUsername: admin
+      wordpressPassword: stagingpassword
+      service:
+        type: ClusterIP

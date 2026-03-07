@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wordpress-staging
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/adalbert-code/gitops-wordpress.git
+    targetRevision: main
+    path: apps-staging
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: wordpress-staging
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
