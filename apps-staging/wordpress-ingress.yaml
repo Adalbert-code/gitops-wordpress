@@ -1,20 +1,21 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: wordpress-staging-ingress
-  namespace: wordpress-staging
+  name: wordpress-ingress
+  namespace: wordpress
   annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
 spec:
   ingressClassName: nginx
   rules:
-  - host: wordpress-staging.local
+  - host: wordpress.dev.local
     http:
       paths:
       - path: /
         pathType: Prefix
         backend:
           service:
-            name: wordpress-staging
+            name: wordpress
             port:
               number: 80

@@ -1,0 +1,19 @@
+apiVersion: helm.crossplane.io/v1beta1
+kind: Release
+metadata:
+  name: redis
+spec:
+  providerConfigRef:
+    name: default
+  forProvider:
+    chart:
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: "20.6.3"
+    namespace: wordpress
+    values:
+      image:
+        tag: "latest"
+      auth:
+        enabled: false
+      architecture: standalone

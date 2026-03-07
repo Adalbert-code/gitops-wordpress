@@ -1,7 +1,7 @@
 apiVersion: helm.crossplane.io/v1beta1
 kind: Release
 metadata:
-  name: wordpress-dev
+  name: wordpress
 spec:
   providerConfigRef:
     name: default
@@ -10,14 +10,20 @@ spec:
       name: wordpress
       repository: https://charts.bitnami.com/bitnami
       version: "24.1.7"
-    namespace: wordpress-dev
+    namespace: wordpress
     values:
       image:
         tag: "latest"
       mariadb:
-        enabled: true
-        image:
-          tag: "latest"
+        enabled: false
+      externalDatabase:
+        host: mariadb.wordpress.svc.cluster.local
+        user: wordpress
+        password: wordpresspassword
+        database: wordpress
+        port: 3306
+      redis:
+        enabled: false
       wordpressUsername: admin
       wordpressPassword: adminpassword
       service:
