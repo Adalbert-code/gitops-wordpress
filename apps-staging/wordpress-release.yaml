@@ -1,7 +1,7 @@
 apiVersion: helm.crossplane.io/v1beta1
 kind: Release
 metadata:
-  name: wordpress
+  name: wordpress-staging
 spec:
   providerConfigRef:
     name: default
@@ -10,14 +10,14 @@ spec:
       name: wordpress
       repository: https://charts.bitnami.com/bitnami
       version: "24.1.7"
-    namespace: wordpress
+    namespace: wordpress-staging
     values:
       image:
         tag: "latest"
       mariadb:
         enabled: false
       externalDatabase:
-        host: mariadb.wordpress.svc.cluster.local
+        host: mariadb-staging.wordpress-staging.svc.cluster.local
         user: wordpress
         password: wordpresspassword
         database: wordpress
@@ -25,6 +25,6 @@ spec:
       redis:
         enabled: false
       wordpressUsername: admin
-      wordpressPassword: adminpassword
+      wordpressPassword: stagingpassword
       service:
         type: ClusterIP
