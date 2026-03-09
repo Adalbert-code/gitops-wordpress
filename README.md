@@ -170,21 +170,21 @@ kubectl-argo-rollouts undo wordpress-canary -n wordpress
 
 ![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary1.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary1.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary2.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary2.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary3.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary3.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0100.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0100.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0102.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0102.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0103.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0103.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101-RB.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101-RB.png)
 *Argo Rollback*
 ### Stratégie Blue/Green
 
@@ -201,15 +201,15 @@ Green (preview) ── 0% trafic prod ─── tests QA ──► 100% trafic p
 #### Screenshots Blue/Green
 ![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0100.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0101.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0101.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0102.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0102.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0103.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0103.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105.png)
 *Argo Rollouts 1*
-[ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105-RB.png)
+![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105-RB.png)
 *Argo Rollback*
 ---
 
