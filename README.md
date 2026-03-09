@@ -25,26 +25,26 @@ Ce projet démontre la mise en œuvre d'une **Internal Developer Platform (IDP)*
 ## 🏗️ Architecture
 
 ```
-┌────────────────────────────────────────────────────────────────┐
-│                    DOKS — DigitalOcean Kubernetes              │
-│                    2 × s-4vcpu-8GB | K8s v1.35.1               │
-│                                                                │
+┌─────────────────────────────────────────────────────────────────┐
+│                    DOKS — DigitalOcean Kubernetes               │
+│                    2 × s-4vcpu-8GB | K8s v1.35.1                │
+│                                                                  │
 │  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
-│  │ ingress-nginx│  │   argocd     │  │  crossplane-system   │  │
+│  │ ingress-nginx │  │   argocd     │  │  crossplane-system   │  │
 │  │ LB: 168.144  │  │ LB: 139.59   │  │  + provider-helm     │  │
 │  └──────────────┘  └──────────────┘  └──────────────────────┘  │
-│                                                                │
-│  ┌──────────────────────────┐  ┌──────────────────────────────┐│
-│  │     wordpress (prod)     │  │   wordpress-staging          ││
-│  │  MariaDB + Redis + WP    │  │  MariaDB + Redis + WP        │ 
-│  │  Dapr sidecar 2/2     │  │  │  Isolé, stack complète ✅    │   
+│                                                                  │
+│  ┌──────────────────────────┐  ┌──────────────────────────────┐ │
+│  │     wordpress (prod)     │  │   wordpress-staging          │ │
+│  │  MariaDB + Redis + WP    │  │  MariaDB + Redis + WP        │ │
+│  │  Dapr sidecar 2/2 ✅     │  │  Isolé, stack complète ✅    │ │
 │  └──────────────────────────┘  └──────────────────────────────┘ │
-│                                                                 │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐   │
-│  │  dev-team    │  │ staging-team │  │   argo-rollouts      │   │
-│  │  vCluster    │  │  vCluster    │  │  Canary + BlueGreen  │   │
-│  └──────────────┘  └──────────────┘  └──────────────────────┘   │
-│                                                                 │
+│                                                                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────────────┐  │
+│  │  dev-team    │  │ staging-team │  │   argo-rollouts      │  │
+│  │  vCluster    │  │  vCluster    │  │  Canary + BlueGreen  │  │
+│  └──────────────┘  └──────────────┘  └──────────────────────┘  │
+│                                                                  │
 │  ┌──────────────────────────────────────────────────────────┐   │
 │  │  monitoring: Prometheus + Grafana + Keptn (DORA)         │   │
 │  │  dapr-system: operator + placement + sentry + injector   │   │
@@ -118,7 +118,8 @@ gitops-wordpress/
 ├── provider-helm-config.yaml      ProviderConfig (InjectedIdentity)
 ├── dapr-components.yaml           State Store + Pub/Sub (Redis)
 ├── rollout-canary.yaml            Argo Rollouts — stratégie Canary
-└── rollout-bluegreen.yaml         Argo Rollouts — stratégie Blue/Green
+├── rollout-bluegreen.yaml         Argo Rollouts — stratégie Blue/Green
+└── screenshots/                   Captures d'écran du projet
 ```
 
 ---
@@ -138,6 +139,23 @@ Developer          GitHub              ArgoCD           Kubernetes
 ```
 
 **Principe** : Tout changement applicatif passe par un commit Git. ArgoCD détecte le changement et applique automatiquement l'état désiré dans le cluster. Le cluster reflète **toujours** exactement ce qui est dans Git.
+
+### ArgoCD — Applications GitOps
+
+<p align="center">
+  <img src="screenshots/ArgoCD_00.png" width="48%" alt="ArgoCD Applications overview"/>
+  <img src="screenshots/ArgoCD_01.png" width="48%" alt="ArgoCD wordpress-platform Synced Healthy"/>
+</p>
+<p align="center">
+  <em>ArgoCD — Vue d'ensemble des applications &nbsp;&nbsp;|&nbsp;&nbsp; wordpress-platform Synced ✅ Healthy ✅</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/ArgoCD_vCluster_application.png" width="60%" alt="ArgoCD vCluster application"/>
+</p>
+<p align="center">
+  <em>ArgoCD — Application vCluster déployée et synchronisée</em>
+</p>
 
 ---
 
@@ -166,26 +184,53 @@ kubectl-argo-rollouts promote wordpress-canary -n wordpress
 kubectl-argo-rollouts abort wordpress-canary -n wordpress
 kubectl-argo-rollouts undo wordpress-canary -n wordpress
 ```
-#### Screenshots Canary
 
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary1.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary2.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary3.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0100.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0102.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0103.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Canary0101-RB.png)
-*Argo Rollback*
+#### Screenshots — Canary en action
+
+<p align="center">
+  <img src="screenshots/Canary.png" width="48%" alt="Canary dashboard overview"/>
+  <img src="screenshots/Canary1.png" width="48%" alt="Canary Revision 1 Healthy"/>
+</p>
+<p align="center">
+  <em>Dashboard Argo Rollouts &nbsp;&nbsp;|&nbsp;&nbsp; Canary — Revision 1 stable (état initial)</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/Canary0100.png" width="48%" alt="Canary step 20%"/>
+  <img src="screenshots/Canary0101.png" width="48%" alt="Canary step 40%"/>
+</p>
+<p align="center">
+  <em>Canary — Trafic à 20% vers la nouvelle version &nbsp;&nbsp;|&nbsp;&nbsp; Canary — Progression à 40%</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/Canary0102.png" width="48%" alt="Canary pause manuelle 60%"/>
+  <img src="screenshots/Canary0103.png" width="48%" alt="Canary 100% complete"/>
+</p>
+<p align="center">
+  <em>Canary — Pause manuelle à 60% (validation humaine requise) &nbsp;&nbsp;|&nbsp;&nbsp; Canary — Promotion à 100% ✅</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/Canary2.png" width="48%" alt="Canary Revision 2 active"/>
+  <img src="screenshots/Canary3.png" width="48%" alt="Canary Revision 1 No Pods"/>
+</p>
+<p align="center">
+  <em>Canary — Revision 2 active &nbsp;&nbsp;|&nbsp;&nbsp; Canary — Revision 1 scalée à 0 (rollout terminé)</em>
+</p>
+
+#### Screenshots — Rollback Canary
+
+<p align="center">
+  <img src="screenshots/Canary0101-RB.png" width="48%" alt="Canary abort degraded"/>
+  <img src="screenshots/Canary0104-RB-abort.png" width="48%" alt="Canary rollback completed"/>
+</p>
+<p align="center">
+  <em>Rollback — Abort déclenché, état Degraded &nbsp;&nbsp;|&nbsp;&nbsp; Rollback — Retour à la version stable ✅</em>
+</p>
+
+---
+
 ### Stratégie Blue/Green
 
 Deux environnements identiques en parallèle. Bascule instantanée, rollback immédiat.
@@ -198,19 +243,33 @@ Green (preview) ── 0% trafic prod ─── tests QA ──► 100% trafic p
 ```
 
 **Avantage** : Pas d'interruption de service, rollback en une commande.
-#### Screenshots Blue/Green
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0100.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0101.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0102.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0103.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105.png)
-*Argo Rollouts 1*
-![ArgoCD avec wordpress-platform + staging Synced](screenshots/Bluegreen0105-RB.png)
-*Argo Rollback*
+
+#### Screenshots — Blue/Green en action
+
+<p align="center">
+  <img src="screenshots/Bluegreen0100.png" width="48%" alt="BlueGreen Blue actif Revision 1"/>
+  <img src="screenshots/Bluegreen0101.png" width="48%" alt="BlueGreen Green Preview déployé"/>
+</p>
+<p align="center">
+  <em>Blue/Green — Blue actif (Revision 1, 100% trafic) &nbsp;&nbsp;|&nbsp;&nbsp; Blue/Green — Green Preview déployé en parallèle</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/Bluegreen0102.png" width="48%" alt="BlueGreen deux versions actives"/>
+  <img src="screenshots/Bluegreen0103.png" width="48%" alt="BlueGreen promotion en cours"/>
+</p>
+<p align="center">
+  <em>Blue/Green — Deux versions actives simultanément &nbsp;&nbsp;|&nbsp;&nbsp; Blue/Green — Promotion Green → Active</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/Bluegreen0105.png" width="48%" alt="BlueGreen Green promu actif"/>
+  <img src="screenshots/Bluegreen0105-RB.png" width="48%" alt="BlueGreen rollback vers Blue"/>
+</p>
+<p align="center">
+  <em>Blue/Green — Green promu, Blue scalé à 0 ✅ &nbsp;&nbsp;|&nbsp;&nbsp; Blue/Green — Rollback instantané vers Blue</em>
+</p>
+
 ---
 
 ## 📊 Métriques DORA
@@ -229,6 +288,23 @@ Les 4 indicateurs universels de performance DevOps mesurés via Keptn + Promethe
 kubectl get keptnmetrics -n wordpress
 ```
 
+#### Screenshots — Dashboards Grafana
+
+<p align="center">
+  <img src="screenshots/Realtime-k8s-monitoring.png" width="48%" alt="Grafana real-time Kubernetes monitoring"/>
+  <img src="screenshots/NamespaceWorkload.png" width="48%" alt="Grafana namespace workload"/>
+</p>
+<p align="center">
+  <em>Grafana — Monitoring temps réel Kubernetes &nbsp;&nbsp;|&nbsp;&nbsp; Grafana — Workloads par namespace</em>
+</p>
+
+<p align="center">
+  <img src="screenshots/CoreDNS.png" width="70%" alt="Grafana CoreDNS all pods instances"/>
+</p>
+<p align="center">
+  <em>Grafana — Vue globale pods et instances CoreDNS</em>
+</p>
+
 ---
 
 ## 🌐 Accès aux services
@@ -240,13 +316,16 @@ kubectl get keptnmetrics -n wordpress
 | ArgoCD UI | https://139.59.207.148 | admin / (secret K8s) |
 | Grafana | http://104.248.101.167 | admin / (secret K8s) |
 | Argo Rollouts Dashboard | http://localhost:3100 (port-forward) | - |
-#### Screenshots Metrics DORA
-![Dashboard DORA Metrics](screenshots/CoreDNS.png)
-*Alls pods instances*
-![Node Exporter dashboard](screenshots/Realtime-k8s-monitoring.png)
-*Alls pods instances*
-![Node Exporter dashboard](screenshots/NamespaceWorkload.png)
-*Alls pods instances*
+
+#### WordPress Staging en production
+
+<p align="center">
+  <img src="screenshots/WordPress-staging-Running.png" width="70%" alt="WordPress staging running"/>
+</p>
+<p align="center">
+  <em>WordPress Staging — Stack complète Running (MariaDB + Redis + WordPress) ✅</em>
+</p>
+
 ---
 
 ## ⚙️ Installation & Reproduction
@@ -274,7 +353,9 @@ kubectl apply -f provider-helm-rbac.yaml
 kubectl apply -f provider-helm-config.yaml
 
 # 4. ArgoCD
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml --server-side
+kubectl apply -n argocd \
+  -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml \
+  --server-side
 
 # 5. Applications GitOps
 kubectl apply -f argocd-app.yaml
@@ -287,23 +368,19 @@ vcluster create vcluster-staging --namespace staging-team
 # 7. Dapr
 helm upgrade --install dapr dapr/dapr \
   --version=1.14 --namespace dapr-system --create-namespace
-
 kubectl apply -f dapr-components.yaml
 
 # 8. Argo Rollouts
 kubectl create namespace argo-rollouts
 kubectl apply -n argo-rollouts \
   -f https://github.com/argoproj/argo-rollouts/releases/latest/download/install.yaml
-
 kubectl apply -f rollout-canary.yaml
 kubectl apply -f rollout-bluegreen.yaml
 
 # 9. Monitoring DORA
 kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.13.0/cert-manager.yaml
-
 helm install prometheus prometheus-community/kube-prometheus-stack \
   --namespace monitoring --create-namespace
-
 helm install keptn keptn-lifecycle/keptn \
   --namespace keptn-system --create-namespace \
   --set certManager.enabled=false
@@ -318,7 +395,6 @@ Crossplane permet de décrire les releases Helm comme des ressources Kubernetes 
 
 ### Pourquoi ArgoCD pour le GitOps ?
 Git devient la source de vérité unique. ArgoCD surveille le repo et détecte tout drift entre l'état désiré (Git) et l'état réel (cluster). Les déploiements sont traçables, auditables et réversibles via un simple `git revert`.
-
 
 ### Pourquoi vCluster pour les environnements ?
 Créer un cluster physique par environnement coûte cher et est lent. vCluster crée des clusters Kubernetes virtuels légers (~30s) dans des namespaces dédiés, avec isolation forte (kube-apiserver dédié) et économie de ressources.
@@ -343,13 +419,6 @@ Les Deployments K8s font du rolling update basique (tout ou rien). Argo Rollouts
 | Conflit PVC lors restart WordPress | Ancien pod toujours attaché au PVC | Scale ancien ReplicaSet à 0 en premier |
 | Noms releases staging incorrects | sed a modifié chart.name en plus de metadata.name | Recréation manuelle des fichiers YAML |
 
-#### Screenshots ArgoCD vCluster
-![Dashboard DORA Metrics](screenshots/ArgoCD_01.png)
-*AgoCD*
-![Node Exporter dashboard](screenshots/ArgoCD_00.png)
-*Alls pods instances*
-![Node Exporter dashboard](screenshots/ArgoCD_vCluster_application.png)
-*vCluster*
 ---
 
 ## 📈 Résultats & Bilan
@@ -370,7 +439,7 @@ Les Deployments K8s font du rolling update basique (tout ou rien). Argo Rollouts
 
 ## 👩‍💻 Auteure
 
-**Adalbert NANDA.** — DevOps Engineer & Product Owner  
+**Adalbert NANDA** — DevOps Engineer & Product Owner  
 Formation Platform Engineering — EazyTraining | Mars 2026
 
 *Stack maîtrisée : Kubernetes • ArgoCD • Crossplane • Dapr • Argo Rollouts • Keptn • Prometheus • Grafana • Helm • GitOps • DigitalOcean*
